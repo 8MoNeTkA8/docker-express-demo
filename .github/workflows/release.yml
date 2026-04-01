@@ -1,0 +1,32 @@
+name: Release Node.js app
+
+on:
+  push:
+    branches:
+      - main        # workflow запускается только при пуше в ветку main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest   # виртуальная машина с Ubuntu
+
+    steps:
+      # Шаг 1: клонируем репозиторий в runner
+      - name: Checkout code
+        uses: actions/checkout@v4   # последняя стабильная версия
+
+      # Шаг 2: логинимся в Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}   # имя пользователя Docker Hub (хранится в секретах GitHub)
+          password: ${{ secrets.DOCKER_PASSWORD }}   # пароль или токен (тоже секрет)
+
+      # Шаг 3: собираем образ и пушим в Docker Hub
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .               # использовать текущую директорию как контекст сборки
+          push: true               # сразу пушить после сборки
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/express-app:latest   # тег latest
+            ${{ secrets.DOCKER_USERNAME }}/express-app:${{ github.sha }}   # тег с хешем коммита
