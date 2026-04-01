@@ -28,5 +28,5 @@ jobs:
           context: .               # использовать текущую директорию как контекст сборки
           push: true               # сразу пушить после сборки
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/express-app:latest   # тег latest
+            ${{ secrets.DOCKER_USERNAME }}/express-app:latest 
             ${{ secrets.DOCKER_USERNAME }}/express-app:${{ github.sha }}   # тег с хешем коммита
