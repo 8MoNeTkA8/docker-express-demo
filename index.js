@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 
 app.get('/', (req, res) => {
-  res.send('<h1>Hello from Docker! This is version after render update!</h1>')
+  res.send('<h1>Hello from Docker! This is version after render update_2!</h1>')
 })
 
 const PORT = 3000
